@@ -73,7 +73,7 @@ def train(
         if np.mean(scores_window) >= threshold:
             solved_str = '\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'
             logger.info(solved_str.format(i_episode - 100, np.mean(scores_window)))
-            torch.save(agent.qnet_model_current.state_dict(), 'models\\checkpoint.pth')
+            torch.save(agent.actor_model_current.state_dict(), 'models\\checkpoint.pth')
             break
 
     return scores

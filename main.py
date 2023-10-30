@@ -2,37 +2,38 @@ import traceback as tb
 from os.path import join
 
 import numpy as np
-from unityagents import UnityEnvironment
 import matplotlib.pyplot as plt
+from unityagents import UnityEnvironment
 
-from dqn_agent import DQNAgent
+from ddpg_agent import DDPGAgent
 from train_agent import train
 from utils import logger
 
-nav_dir = "C:\\Users\\pathr\\PycharmProjects\\Value-based-methods\\p1_navigation\\"
-app_path = "Banana_Windows_x86_64\\Banana.exe"
-env = UnityEnvironment(file_name=join(nav_dir, app_path))
+projects_dir = "C:\\Users\\pathr\\PycharmProjects\\"
+app_path = "Reacher_Windows_x86_64\\Reacer.exe"
+env = UnityEnvironment(file_name=join(projects_dir, app_path))
 
 try:
     scores = train(
         env=env,
-        agent=DQNAgent(
-            state_size=37,
+        agent=DDPGAgent(
+            state_size=33,
             action_size=4,
             seed=123456789,
-            lr=5e-4,  #5e-4
+            lr_actor=1e-4,
+            lr_critic=1e-3,
             buffer_size=int(1e5),
-            train_batch_size=64,
-            discount_factor=0.99,  #99
+            train_batch_size=128,
+            discount_factor=0.99,
             TAU=1e-3,  # update of best parameters
             update_iteration=4,
         ),
-        num_episodes=2000,
+        num_episodes=10,
         max_timesteps=1000,
         eps_start=1.0,
         eps_end=0.01,
         eps_decay=0.995,
-        threshold=14.0,
+        threshold=30.0,
     )
 
     # plot the scores

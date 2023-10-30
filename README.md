@@ -9,12 +9,9 @@ The below is a paraphrasing from the Udacity course's repo regarding this projec
 
 The goal of the agent is to collect as many yellow bananas (+1) within a given time while avoiding blue bananas (-1). The goal is to get an average score of +13 over 100 consecutive episodes.
 
-According to Udacity: "The state space has 37 dimensions and contains the agent's velocity, along with ray-based perception of objects around agent's forward direction." The agent is able to select from four discrete actions:
+According to Udacity: "The state space has 33 dimensions and contains the agent's velocity, along with ray-based perception of objects around agent's forward direction." 
 
-* 0 - move forward.
-* 1 - move backward.
-* 2 - turn left.
-* 3 - turn right.
+The agent's action space consists of a 4 dimensional vector where each value is bounded [-1, 1].
 
 ## Getting Started
 
@@ -23,6 +20,7 @@ After following the instructions defined here for downloading and installing: ht
 My installation was based on 
 * Windows 11 x64
 * Python 3.6.13 :: Anaconda, Inc.
+* Reacher Unity Build: https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Windows_x86_64.zip
 
 ```bash
 # Instructions from Deep RL course for environment setup
