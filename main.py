@@ -1,3 +1,4 @@
+
 import traceback as tb
 from os.path import join
 
@@ -9,9 +10,11 @@ from ddpg_agent import DDPGAgent
 from train_agent import train
 from utils import logger
 
+
 projects_dir = "C:\\Users\\pathr\\PycharmProjects\\"
-app_path = "Reacher_Windows_x86_64\\Reacer.exe"
-env = UnityEnvironment(file_name=join(projects_dir, app_path))
+app_path = "Reacher_Windows_x86_64\\Reacher.exe"
+app_path = join(projects_dir, app_path)
+env = UnityEnvironment(file_name=app_path)
 
 try:
     scores = train(
@@ -19,20 +22,20 @@ try:
         agent=DDPGAgent(
             state_size=33,
             action_size=4,
-            seed=123456789,
-            lr_actor=1e-4,
+            seed=546879,
+            lr_actor=1e-3,
             lr_critic=1e-3,
             buffer_size=int(1e5),
-            train_batch_size=128,
-            discount_factor=0.99,
+            train_batch_size=256,
+            discount_factor=0.95,
             TAU=1e-3,  # update of best parameters
-            update_iteration=4,
+            update_iteration=20,
+            weight_decay=0.0001,
+            num_updates_per_interval=10,
+            noise_decay=0.999,
         ),
-        num_episodes=10,
-        max_timesteps=1000,
-        eps_start=1.0,
-        eps_end=0.01,
-        eps_decay=0.995,
+        num_episodes=100,
+        max_timesteps=200,
         threshold=30.0,
     )
 

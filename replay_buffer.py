@@ -38,7 +38,7 @@ class ReplayBuffer:
     def add_experience(
         self,
         state: Iterable[float],
-        action: int,
+        action: Iterable[float],
         reward: float,
         next_state: Iterable[float],
         done: bool,
@@ -92,7 +92,7 @@ class ReplayBuffer:
         ]
 
         states = torch.from_numpy(np.vstack(states)).float().to(self.device)
-        actions = torch.from_numpy(np.vstack(actions)).long().to(self.device)
+        actions = torch.from_numpy(np.vstack(actions)).float().to(self.device)
         rewards = torch.from_numpy(np.vstack(rewards)).float().to(self.device)
         next_states = torch.from_numpy(np.vstack(next_states)).float().to(self.device)
         dones = torch.from_numpy(np.vstack(dones).astype(np.uint8)).float().to(self.device)
@@ -110,4 +110,3 @@ class ReplayBuffer:
     def __len__(self) -> int:
         """Return the current size of internal memory."""
         return len(self.replay_buffer)
-

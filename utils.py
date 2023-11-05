@@ -1,6 +1,17 @@
 
 import logging
 
-LOGGER_NAME = 'TEST'
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(LOGGER_NAME)
+logger = logging.getLogger("myLog")
+
+FileOutputHandler = logging.FileHandler('logs.log', mode='w')
+
+logger.setLevel(level=logging.DEBUG)
+#logger.setLevel(level=logging.INFO)
+
+formatter = logging.Formatter(fmt='%(levelname)s: %(message)s')
+
+FileOutputHandler.setFormatter(formatter)
+
+logger.addHandler(FileOutputHandler)
+logger.propagate = False
+

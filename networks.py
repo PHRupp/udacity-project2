@@ -1,8 +1,15 @@
 from typing import List
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+
+def hidden_init(layer):
+    fan_in = layer.weight.data.size()[0]
+    lim = 1. / np.sqrt(fan_in)
+    return -lim, lim
 
 
 class ActorNetwork(nn.Module):
@@ -26,20 +33,28 @@ class ActorNetwork(nn.Module):
         self.fc1 = nn.Linear(state_size, layers[0])
         self.fc2 = nn.Linear(layers[0], layers[1])
         self.fc3 = nn.Linear(layers[1], layers[2])
+        #self.fc3 = nn.Linear(layers[1], action_size)
         self.fc4 = nn.Linear(layers[2], action_size)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
+        self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
+        self.fc3.weight.data.uniform_(*hidden_init(self.fc3))
+        self.fc4.weight.data.uniform_(-3e-3, 3e-3)
 
     def forward(self, state):
         """ Network that calculates actions from states
+        sigmoid, relu, tanh, leaky_relu
         :param state: Iterable[float] represents state
         :return: action: Iterable[int] represents possible actions
         """
-        # Sigmoid is [0,1] and actions space bounds are [-1,1]
         x = state
-        x = F.sigmoid(self.fc1(x))
-        x = F.sigmoid(self.fc2(x))
-        x = F.sigmoid(self.fc3(x))
-        x = F.sigmoid(self.fc4(x))
-        return 2*x - 1.0
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        x = torch.relu(self.fc3(x))
+        x = torch.tanh(self.fc4(x))
+        return x
 
 
 class CriticNetwork(nn.Module):
@@ -50,7 +65,7 @@ class CriticNetwork(nn.Module):
         state_size,
         action_size,
         seed,
-        layers: List[int] = [300, 400],
+        layers: List[int] = [256, 256, 128],
     ):
         """ Create instance of model
         :param state_size: (int): size of state
@@ -62,7 +77,17 @@ class CriticNetwork(nn.Module):
         self.seed = torch.manual_seed(seed)
         self.fc1 = nn.Linear(state_size, layers[0])
         self.fc2 = nn.Linear(layers[0] + action_size, layers[1])
+        #self.fc3 = nn.Linear(layers[1], layers[2])
+        #self.fc4 = nn.Linear(layers[2], 1)
         self.fc3 = nn.Linear(layers[1], 1)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
+        self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
+        self.fc3.weight.data.uniform_(*hidden_init(self.fc3))
+        self.fc3.weight.data.uniform_(-3e-3, 3e-3)
+        #self.fc4.weight.data.uniform_(-3e-3, 3e-3)
 
     def forward(self, state, action):
         """ Critic Network that calculates state-value to action pairs
@@ -73,4 +98,7 @@ class CriticNetwork(nn.Module):
         x = F.relu(self.fc1(state))
         x = torch.cat((x, action), dim=1)
         x = F.relu(self.fc2(x))
-        return self.fc3(x)
+        #x = F.relu(self.fc3(x))
+        x = self.fc3(x)
+        #x = self.fc4(x)
+        return x
