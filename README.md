@@ -11,7 +11,7 @@ The goal of the agent is to keep the arm within the floating ball as long as pos
 
 According to Udacity: "The state space has 33 dimensions and contains the agent's velocity, along with ray-based perception of objects around agent's forward direction." 
 
-The agent's action space consists of a 4 dimensional vector where each value is bounded [-1, 1].
+The agent's action space consists of a 4 dimensional vector where each value is bounded [-1, 1] and represents various torque values on the arm.
 
 ## Getting Started
 
@@ -47,10 +47,10 @@ pushd udacity-project2
 
 In order to run the code, we run it straight via python instead of using jupyter notebooks.
 
-As depicted in the Report.pdf, you can change the paramters in main.py to get different results. Otherwise, you can run the code as-is to get the same results assuming a random seed = 0. 
+As depicted in the Report.pdf, you can change the paramters in main.py to get different results. Otherwise, you can run the code as-is to get the same results assuming a random seed = 546879. 
 
 ```python
-# run from 'udacity-agent-is-bananas' directory
+# run from 'udacity-project2' directory
 python main.py
 ```
 
