@@ -5,8 +5,8 @@ logger = logging.getLogger("myLog")
 
 FileOutputHandler = logging.FileHandler('logs.log', mode='w')
 
-logger.setLevel(level=logging.DEBUG)
-#logger.setLevel(level=logging.INFO)
+#logger.setLevel(level=logging.DEBUG)
+logger.setLevel(level=logging.INFO)
 
 formatter = logging.Formatter(fmt='%(levelname)s: %(message)s')
 

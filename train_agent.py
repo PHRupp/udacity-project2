@@ -36,6 +36,7 @@ def train(
         state_brain = env.reset()
         state = state_brain[brain].__dict__['vector_observations']
         score = 0
+        did_finish = False
 
         # loop through all time steps within episode
         for t in range(max_timesteps):
@@ -51,6 +52,7 @@ def train(
 
             # exit the episode if done condition reached
             if done:
+                did_finish = True
                 exit(0)
                 break
 

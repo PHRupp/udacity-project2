@@ -23,7 +23,7 @@ try:
             state_size=33,
             action_size=4,
             seed=546879,
-            lr_actor=1e-3,
+            lr_actor=1e-4,
             lr_critic=1e-3,
             buffer_size=int(1e5),
             train_batch_size=256,
@@ -32,10 +32,10 @@ try:
             update_iteration=20,
             weight_decay=0.0001,
             num_updates_per_interval=10,
-            noise_decay=0.999,
+            noise_decay=1,
         ),
-        num_episodes=100,
-        max_timesteps=200,
+        num_episodes=250,
+        max_timesteps=999,
         threshold=30.0,
     )
 

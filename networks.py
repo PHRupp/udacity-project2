@@ -85,7 +85,7 @@ class CriticNetwork(nn.Module):
     def reset_parameters(self):
         self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
         self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
-        self.fc3.weight.data.uniform_(*hidden_init(self.fc3))
+        #self.fc3.weight.data.uniform_(*hidden_init(self.fc3))
         self.fc3.weight.data.uniform_(-3e-3, 3e-3)
         #self.fc4.weight.data.uniform_(-3e-3, 3e-3)
 
